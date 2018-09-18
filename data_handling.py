@@ -38,6 +38,6 @@ def reading_tables(title):
                 table_data.append(row)
             return table_data
     except IOError:
-        error_handling('No file realted to the table \'' + title + '\' found')
+        error_handling('ERROR: Table \'' + title + '\' doesn\'t exists')
 
 

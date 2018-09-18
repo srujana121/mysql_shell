@@ -32,6 +32,7 @@ class Query_handling(object):
                     split_select.remove('')
             if split_select==[' ']:
                 error_handling("Syntax Error: No columns are selected from tables")
+                return
 
             #print split_select
             split_where=split_from[1].split('where')
@@ -41,6 +42,7 @@ class Query_handling(object):
             #print split_where
             if 'where' in query and len(split_where)==1:
                 error_handling("Syntax Error: Incorrect use of 'where' clause ")
+                return
 
             input_tables=split_where[0]
             self.matrix(input_tables)
