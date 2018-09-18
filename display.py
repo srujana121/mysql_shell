@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from __future__ import division
 import sys
 
 def project(all_columns,matrix_metadata,split_select,input_tables,simple_matrix_metadata):
@@ -21,6 +22,83 @@ def project(all_columns,matrix_metadata,split_select,input_tables,simple_matrix_
         selected_col[0]=selected_col[0].strip()
         if len(selected_col)==1 and  selected_col[0]== '*':
             print_data(matrix_metadata,all_columns)
+        elif selected_col[0].find('sum')!=-1 or selected_col[0].find('average')!=-1 :
+            n=len(selected_col[0])
+            header=[]
+            col=selected_col[0]
+            header.append(col)
+            col=col[4:n-1]
+            k=0
+            if col in matrix_metadata:
+                k=matrix_metadata.index(col)
+            elif col in simple_matrix_metadata:
+                k=simple_matrix_metadata.index(col)
+            l=[]
+            sum_of_col=0
+            count=0
+            for row in all_columns:
+                p=row[k]+'+'+'0'
+                a=eval(p)
+                sum_of_col+=a
+                count+=1
+            if selected_col[0].find('sum')!=-1:
+                l.append(str(sum_of_col))
+            else:
+                l.append(str(sum_of_col/count))
+            final_ans.append(l)
+            print_data(header,final_ans)
+        elif selected_col[0].find('max')!=-1 :
+            n=len(selected_col[0])
+            header=[]
+            col=selected_col[0]
+            header.append(col)
+            col=col[4:n-1]
+            print col
+            k=0
+            if col in matrix_metadata:
+                k=matrix_metadata.index(col)
+            elif col in simple_matrix_metadata:
+                k=simple_matrix_metadata.index(col)
+            l=[]
+            max_of_col=-1000007
+            for row in all_columns:
+                p=row[k]+'>'+str(max_of_col)
+                print p
+                if eval(p):
+                    max_of_col=int(row[k])
+                    print 'max_of_col'
+                    print max_of_col
+            l.append(str(max_of_col))
+            final_ans.append(l)
+            print_data(header,final_ans)
+        elif selected_col[0].find('min')!=-1 :
+            n=len(selected_col[0])
+            header=[]
+            col=selected_col[0]
+            header.append(col)
+            col=col[4:n-1]
+            print col
+            k=0
+            if col in matrix_metadata:
+                k=matrix_metadata.index(col)
+            elif col in simple_matrix_metadata:
+                k=simple_matrix_metadata.index(col)
+            l=[]
+            min_of_col=1000007
+            for row in all_columns:
+                p=row[k]+'<'+str(min_of_col)
+                print p
+                if eval(p):
+                    min_of_col=int(row[k])
+                    print 'min_of_col'
+                    print min_of_col
+            l.append(str(min_of_col))
+            final_ans.append(l)
+            print_data(header,final_ans)
+        
+
+
+            
         else:
             error_handling("No such columns exit in the given tables")
     else:
@@ -49,11 +127,11 @@ def print_data(header,ans):
     for column in header:
         i+=1
         header_string+=column
-        while(len(header_string)<i*13):
+        while(len(header_string)<i*16):
             header_string=header_string+' '
         header_string+='|  '
-        if len(header_string)>i*13:
-            header_string=header_string[:i*13]+'| '
+        if len(header_string)>i*16:
+            header_string=header_string[:i*16]+'| '
 
     n=len(header_string.strip(' '))
     divider=''
@@ -69,11 +147,11 @@ def print_data(header,ans):
         for l in row:
             row_ans+=l
             i+=1;
-            while(len(row_ans)<i*13):
+            while(len(row_ans)<i*16):
                 row_ans=row_ans+' '
             row_ans+='|  '
-            if len(row_ans)>i*13:
-                row_ans=row_ans[:i*13]+'| '
+            if len(row_ans)>i*16:
+                row_ans=row_ans[:i*16]+'| '
         print row_ans.strip(' ')
     print divider
 
